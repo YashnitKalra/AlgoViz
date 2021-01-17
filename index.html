@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AlgoViz</title>
+        <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <style>
+            .nav-item:hover{
+                cursor: pointer;
+                background-color: white;
+                color: black;
+                border: none;
+            }
+            .line{
+                border-left: 1px solid rgb(236, 73, 109);
+                height: 400px;
+                margin-left: 0.1rem;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body class="bg-light">
+        <div class="table-primary pt-3" style="box-shadow:-2px 2px 5px black;">
+            <h2 style="font-family: 'Courier New', Courier, monospace;" class="ml-3 font-italic p-1d-inline">Alg<span class="fas fa-laptop-code p-1" style="font-size: 16px; border: 2px black solid; border-radius: 25px;"></span>Viz</h2>
+            <ul class="nav nav-tabs nav-justified bg-dark text-light">
+                <li class="nav-item nav-link active font-weight-bold" id="search">
+                  Search
+                </li>
+                <li class="nav-item nav-link" id="sort">
+                  Sort
+                </li>
+              </ul> 
+        </div>
+        <div class="m-3 p-2 text-light w-auto" style="background-color: rgba(3, 16, 36, 0.7); box-shadow: -2px 2px 5px black; border-radius: 20px;">
+            
+            <div class="form-group">
+                <!-- Searching Algo -->
+                <span id="searchOptions">
+                    <label for="destinations">Destinations:</label>
+                    <select class="form-control d-inline w-auto" id="destinations"></select>
+
+                    <div class="d-inline mx-5">
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo" checked>A* Search</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Bi-Directional Search</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Dijkastras Algorithm</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Breadth First Search</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-light mr-3" id="searchButton">Seach</button>
+                </span>
+
+                <!-- Sorting Algo -->
+                <span id="sortOptions" style="display: none;">
+                    <label for="size" class="ml-5">Size:</label>
+                    <input type="range" class="custom-range w-25 d-inline mr-3 pt-2" id="size">
+                    <div class="d-inline mx-5">
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo" checked>Selection Sort</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Bubble Sort</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Insertion Sort</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Quick Sort</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Merge Sort</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Heap Sort</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-light mr-3" id="sortButton">Sort</button>
+                </span>
+
+                <span class="float-right mr-5">
+                    <label for="speed">Speed:</label>
+                    <select class="form-control d-inline w-auto" id="speed">
+                        <option value="500">Slow</option>
+                        <option value="100" selected>Medium</option>
+                        <option value="20">Fast</option>
+                        <option value="1">Faster</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        
+        
+        <!-- Sort Visualization -->
+        <div class="container-fluid w-auto h-100 justify-content-center d-none text-center mx-2" id="sortVis" style="overflow: auto;"></div>
+    </body>
+</html>
+<script src='sortAlgorithms.js'></script>
+<script src='index.js'></script>
