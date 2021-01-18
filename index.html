@@ -21,9 +21,18 @@
                 margin-left: 0.1rem;
                 display: inline-block;
             }
+            .box{
+                width: 2%;
+                height: auto;
+                margin: 0%;
+                display: inline-block;
+                border-left: 1px solid black;
+                border-top: 1px solid black;
+                padding: 10px 0px 0px 0px;
+            }
         </style>
     </head>
-    <body class="bg-light">
+    <body class="table-primary">
         <div class="table-primary pt-3" style="box-shadow:-2px 2px 5px black;">
             <h2 style="font-family: 'Courier New', Courier, monospace;" class="ml-3 font-italic p-1d-inline">Alg<span class="fas fa-laptop-code p-1" style="font-size: 16px; border: 2px black solid; border-radius: 25px;"></span>Viz</h2>
             <ul class="nav nav-tabs nav-justified bg-dark text-light">
@@ -40,7 +49,7 @@
             <div class="form-group">
                 <!-- Searching Algo -->
                 <span id="searchOptions">
-                    <label for="destinations">Destinations:</label>
+                    <label for="destinations" class="ml-5">Destinations:</label>
                     <select class="form-control d-inline w-auto" id="destinations"></select>
 
                     <div class="d-inline mx-5">
@@ -84,7 +93,8 @@
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Heap Sort</label>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-outline-light mr-3" id="sortButton">Sort</button>
+                    <button type="button" id="refreshBars" class="btn text-light"><span class="fa fa-sync-alt"></span></button>
+                    <button type="button" class="btn btn-outline-light mx-3" id="sortButton">Sort</button>
                 </span>
 
                 <span class="float-right mr-5">
@@ -99,7 +109,9 @@
             </div>
         </div>
         
-        
+        <!-- Search Visualization -->
+        <div class="container-fluid w-100 h-100 justify-content-center p-0 m-0" id="searchVis"></div>
+
         <!-- Sort Visualization -->
         <div class="container-fluid w-auto h-100 justify-content-center d-none text-center mx-2" id="sortVis" style="overflow: auto;"></div>
     </body>
