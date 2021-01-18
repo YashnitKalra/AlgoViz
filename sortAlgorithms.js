@@ -96,12 +96,43 @@ async function insertionSort(n){
     }
 }
 
+async function partition(l, h){
+    toBlueColor(getLineId(h));
+    let pivot = $(getLineId(h)).height(), height;
+    let i = l-1;
+    toBlueColor(getLineId(i+1));
+    for(let j=l;j<h;j++){
+        speed = getSpeed();
+        height = $(getLineId(j)).height();
+        toGreenColor(getLineId(j));
+        await sleep(speed);
+        if(height<pivot){
+            toDefaultColor(getLineId(i+1));
+            i++;
+            toBlueColor(getLineId(i+1));
+            swapHeight(getLineId(i), getLineId(j));
+        }
+        toDefaultColor(getLineId(j));
+    }
+    swapHeight(getLineId(i+1), getLineId(h));
+    toDefaultColor(getLineId(h));
+    toDefaultColor(getLineId(i+1));
+    return i+1;
+}
+
+async function quickSort(l, h){
+    if(l<h){
+        let pi = await partition(l, h);
+        await quickSort(l, pi-1);
+        await quickSort(pi+1, h);
+    }
+}
+
 async function mergeSort(l,r){
     if(l<r){
         var mid = Math.floor((r+l)/2);
         await mergeSort(l,mid);
         await mergeSort(mid+1,r)
-        console.log(l+" "+r);
         var left = [];
         var right = [];
         for(let i=l;i<=mid;i++)
@@ -139,5 +170,35 @@ async function mergeSort(l,r){
             toDefaultColor(getLineId(k));
             j++; k++;
         }
+    }
+}
+
+async function heapify(n, i){
+    let largest = i;
+    let l = 2*i + 1;
+    let r = 2*i + 2;
+    if(l<n && $(getLineId(l)).height()>$(getLineId(largest)).height())
+        largest = l;
+    if(r<n && $(getLineId(r)).height()>$(getLineId(largest)).height())
+        largest = r;
+    if(largest!=i){
+        toGreenColor(getLineId(i));
+        toBlueColor(getLineId(largest));
+        speed = getSpeed();
+        await sleep(speed);
+        swapHeight(getLineId(i), getLineId(largest));
+        toDefaultColor(getLineId(i));
+        toDefaultColor(getLineId(largest));
+        await heapify(n, largest);
+    }
+}
+
+async function heapSort(n){
+    for(let i=Math.floor(n/2)-1;i>=0;i--)
+        await heapify(n, i);
+    
+    for(let i=n-1;i>=0;i--){
+        await swapHeight(getLineId(0), getLineId(i));
+        await heapify(i, 0);
     }
 }

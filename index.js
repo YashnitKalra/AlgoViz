@@ -44,7 +44,9 @@ $(document).ready(function(){
             case 0: selectionSort(num); break;
             case 1: bubbleSort(num); break;
             case 2: insertionSort(num); break;
+            case 3: quickSort(0, num-1); break;
             case 4: mergeSort(0,num-1); break;
+            case 5: heapSort(num); break;
         }
     });
 });
