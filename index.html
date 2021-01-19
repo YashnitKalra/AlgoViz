@@ -23,13 +23,19 @@
             }
             .box{
                 width: 2%;
-                height: auto;
+                height: 100%;
                 margin: 0%;
                 display: inline-block;
                 border-left: 1px solid black;
                 border-top: 1px solid black;
                 padding: 10px 0px 0px 0px;
                 user-select: none;
+            }
+            .bg-lightgreen{
+                background-color: rgba(51, 174, 47,0.5);
+            }
+            .bg-lightred{
+                background-color: rgba(253, 15, 15, 0.4);
             }
         </style>
     </head>
@@ -47,13 +53,15 @@
         </div>
         <div class="m-3 p-2 text-light w-auto" style="background-color: rgba(3, 16, 36, 0.7); box-shadow: -2px 2px 5px black; border-radius: 20px;">
             
-            <div class="form-group">
+            <div class="form-group container-fluid">
                 <!-- Searching Algo -->
-                <span id="searchOptions">
-                    <label for="destinations" class="ml-5">Destinations:</label>
-                    <select class="form-control d-inline w-auto" id="destinations"></select>
+                <div id="searchOptions" class="row text-center align-items-center">
+                    <div class="col">
+                        <label for="destinations" class="mb-0">Destinations:</label>
+                        <select class="form-control" id="destinations"></select>
+                    </div>
 
-                    <div class="d-inline mx-5">
+                    <div class="col">
                         <div class="form-check-inline">
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo" checked>A* Search</label>
                         </div>
@@ -67,16 +75,21 @@
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Breadth First Search</label>
                         </div>
                     </div>
-                    <button type="button" id="refreshGrid" class="btn text-light"><span class="fa fa-sync-alt"></span></button>
-                    <button type="button" class="btn btn-outline-light ml-3" value="eraser" id="eraseButton">Erase Obstacle <span class="fas fa-eraser"></span></button>
-                    <button type="button" class="btn btn-outline-light mx-3" id="searchButton">Seach</button>
-                </span>
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-light my-1" id="eraseButton">Erase Obstacle <span class="fas fa-eraser"></span></button>
+                        <button type="button" class="btn btn-outline-light my-1" id="randomMazeButton">Random Maze <span class="fa fa-th"></span></button> 
+                        <button type="button" id="refreshGrid" class="btn text-light my-1"><span class="fa fa-sync-alt"></span></button>
+                        <button type="button" class="btn btn-outline-light my-1" id="searchButton">Seach</button>
+                    </div>
+                </div>
 
                 <!-- Sorting Algo -->
-                <span id="sortOptions" style="display: none;">
-                    <label for="size" class="ml-5">Size:</label>
-                    <input type="range" class="custom-range w-25 d-inline mr-3 pt-2" id="size">
-                    <div class="d-inline mx-5">
+                <div id="sortOptions" style="display: none;" class="row text-center align-items-center">
+                    <div class="col">
+                        <label for="size" class="mb-0">Size:</label>
+                        <input type="range" class="custom-range" id="size">
+                    </div>
+                    <div class="col">
                         <div class="form-check-inline">
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo" checked>Selection Sort</label>
                         </div>
@@ -96,11 +109,13 @@
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Heap Sort</label>
                         </div>
                     </div>
-                    <button type="button" id="refreshBars" class="btn text-light"><span class="fa fa-sync-alt"></span></button>
-                    <button type="button" class="btn btn-outline-light mx-3" id="sortButton">Sort</button>
-                </span>
+                    <div class="col">
+                        <button type="button" id="refreshBars" class="btn text-light my-1"><span class="fa fa-sync-alt"></span></button>
+                        <button type="button" class="btn btn-outline-light my-1" id="sortButton">Sort</button>
+                    </div>
+                </div>
 
-                <span class="float-right mr-5">
+                <div class="text-center mt-3">
                     <label for="speed">Speed:</label>
                     <select class="form-control d-inline w-auto" id="speed">
                         <option value="500">Slow</option>
@@ -108,12 +123,12 @@
                         <option value="20">Fast</option>
                         <option value="1">Faster</option>
                     </select>
-                </span>
+                </div>
             </div>
         </div>
         
         <!-- Search Visualization -->
-        <div class="container-fluid w-100 h-100 justify-content-center p-0 m-0" id="searchVis"></div>
+        <div class="container-fluid w-100 h-auto justify-content-center p-0 m-0" id="searchVis"></div>
 
         <!-- Sort Visualization -->
         <div class="container-fluid w-auto h-100 justify-content-center d-none text-center mx-2" id="sortVis" style="overflow: auto;"></div>
