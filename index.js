@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var num,rows=20,cols=50;
     var srcSelected = 0, destSelected = 0, obstacleSelected = 0, eraseSelected = 0, eraseButtonPressed=0;
-    var temp;
+    var temp, tempSrc, tempDest;
     var arr = [];
 
     for(var i=1;i<=10;i++)
@@ -28,11 +28,12 @@ $(document).ready(function(){
 
     function makeGrid(){
         // 0 => empty, -1 => blocked, 1 => src, 2 => dest
-        srcSelected = 0; destSelected = 0; obstacleSelected = 0; eraseSelected = 0; arr = [];
+        srcSelected = 0; destSelected = 0; obstacleSelected = 0; eraseSelected = 0; eraseButtonPressed=0; arr = [];
+        $("#eraseButton").removeClass("btn-outline-light").removeClass("btn-light").addClass("btn-outline-light");
         $("#searchVis").empty();
         for(let i=0;i<rows;i++){
             temp = [];
-            $("#searchVis").append(`<div id="r${i}">`);
+            $("#searchVis").append(`<div id="r${i}" style="height:${screen.height/34}px;">`);
             for(let j=0;j<cols;j++){
                 $(`#r${i}`).append(`<div class='box' id="${i}_${j}">&nbsp;</div>`);
                 temp.push(0);
@@ -48,6 +49,21 @@ $(document).ready(function(){
         createBoxEvents();
     }
     makeGrid();
+    $("#refreshGrid").click(makeGrid);
+
+    $("#randomMazeButton").click(function (){
+        for(let i=0;i<rows;i++)
+            for(let j=0;j<cols;j++)
+                if(arr[i][j]<1){
+                    if(Math.random()<0.3){
+                        $(`#${i}_${j}`).addClass("bg-dark");
+                        arr[i][j] = -1;
+                    }else{
+                        $(`#${i}_${j}`).removeClass("bg-dark");
+                        arr[i][j] = 0;
+                    }
+                }
+    });
 
     function addBars(){
         num = Math.floor((Number($("#size").val())+1)*3.5);
@@ -64,16 +80,16 @@ $(document).ready(function(){
         $("#search").addClass("active").addClass("font-weight-bold");
         $("#sort").removeClass("active").removeClass("font-weight-bold");
         $("#sortOptions").css("display","none");
-        $("#searchOptions").css("display","inline");
+        $("#searchOptions").css("display","flex");
         $("#sortVis").addClass("d-none");
         $("#searchVis").removeClass("d-none");
-        makeGrid();
+        // makeGrid();
     });
     $("#sort").click(function(){
         $("#sort").addClass("active").addClass("font-weight-bold");
         $("#search").removeClass("active").removeClass("font-weight-bold");
         $("#searchOptions").css("display","none");
-        $("#sortOptions").css("display","inline");
+        $("#sortOptions").css("display","flex");
         $("#searchVis").addClass("d-none");
         $("#sortVis").removeClass("d-none");
         addBars();
@@ -96,7 +112,7 @@ $(document).ready(function(){
     });
 
     $("#searchButton").click(function(){
-        console.log(arr);
+        // console.log(arr);
     });
 
     function setBoxValue(obj, val){
@@ -113,21 +129,27 @@ $(document).ready(function(){
         $(".box").click(function(){
             if(getBoxValue(this)==1 && destSelected==0){   // clicked on src
                 srcSelected = 1;
-                setBoxValue(this, 0);
+                tempSrc = this;
+                // setBoxValue(this, 0);
             }
-            else if(srcSelected==1 && getBoxValue(this)<1){ // set src which is not dest
+            else if(srcSelected==1 && getBoxValue(this)!=2){ // set src which is not dest
                 srcSelected = 0;
                 setBoxValue(this, 1);
-                $(this).removeClass("bg-dark");
+                setBoxValue(tempSrc, 0);
+                $(tempSrc).removeClass("bg-success");
+                $(this).removeClass("bg-dark").removeClass("bg-lightgreen").addClass("bg-success");
             }
             else if(getBoxValue(this)==2 && srcSelected==0){   // clicked on dest
                 destSelected = 1;
-                setBoxValue(this, 0);
+                tempDest = this;
+                // setBoxValue(this, 0);
             }
-            else if(destSelected==1 && getBoxValue(this)<1){    // set dest which is not src
+            else if(destSelected==1 && getBoxValue(this)!=1){    // set dest which is not src
                 destSelected = 0;
                 setBoxValue(this, 2);
-                $(this).removeClass("bg-dark");
+                setBoxValue(tempDest, 0);
+                $(tempDest).removeClass("bg-danger");
+                $(this).removeClass("bg-dark").removeClass("bg-lightred").addClass("bg-danger");
             }
             else if(srcSelected==0 && destSelected==0){ // neither src is selected nor dest
                 if(eraseButtonPressed==1 && eraseSelected==0){  // start erasing
@@ -151,12 +173,12 @@ $(document).ready(function(){
 
         $(".box").hover(function(){ // MOUSE-ENTER
             if(srcSelected==1){ // while src is selected
-                if(getBoxValue(this)<=1)
-                    $(this).addClass("bg-success");
+                if(getBoxValue(this)!=2)
+                    $(this).addClass("bg-lightgreen");
             }
             else if(destSelected==1){   // while dest is selected
-                if(getBoxValue(this)<1)
-                    $(this).addClass("bg-danger");
+                if(getBoxValue(this)!=1)
+                    $(this).addClass("bg-lightred");
             }
             else if(srcSelected==0 && destSelected==0){
                 if(eraseButtonPressed==1){  // erase options
@@ -178,12 +200,12 @@ $(document).ready(function(){
         },
         function(){  // MOUSE-LEAVE
             if(srcSelected==1){ // while src is selected
-                if(getBoxValue(this)<=1)
-                    $(this).removeClass("bg-success");
+                if(getBoxValue(this)!=2)
+                    $(this).removeClass("bg-lightgreen");
             }
             else if(destSelected==1){   // while dest is selected
-                if(getBoxValue(this)<1)
-                    $(this).removeClass("bg-danger");
+                if(getBoxValue(this)!=2)
+                    $(this).removeClass("bg-lightred");
             }
             else if(srcSelected==0 && destSelected==0){
                 if(eraseButtonPressed==1){  // erase options
