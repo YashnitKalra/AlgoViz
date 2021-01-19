@@ -29,6 +29,7 @@
                 border-left: 1px solid black;
                 border-top: 1px solid black;
                 padding: 10px 0px 0px 0px;
+                user-select: none;
             }
         </style>
     </head>
@@ -37,10 +38,10 @@
             <h2 style="font-family: 'Courier New', Courier, monospace;" class="ml-3 font-italic p-1d-inline">Alg<span class="fas fa-laptop-code p-1" style="font-size: 16px; border: 2px black solid; border-radius: 25px;"></span>Viz</h2>
             <ul class="nav nav-tabs nav-justified bg-dark text-light">
                 <li class="nav-item nav-link active font-weight-bold" id="search">
-                  Search
+                  Search <span class="fas fa-search"></span>
                 </li>
                 <li class="nav-item nav-link" id="sort">
-                  Sort
+                  Sort <span class="fas fa-sort"></span>
                 </li>
               </ul> 
         </div>
@@ -66,7 +67,9 @@
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Breadth First Search</label>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-outline-light mr-3" id="searchButton">Seach</button>
+                    <button type="button" id="refreshGrid" class="btn text-light"><span class="fa fa-sync-alt"></span></button>
+                    <button type="button" class="btn btn-outline-light ml-3" value="eraser" id="eraseButton">Erase Obstacle <span class="fas fa-eraser"></span></button>
+                    <button type="button" class="btn btn-outline-light mx-3" id="searchButton">Seach</button>
                 </span>
 
                 <!-- Sorting Algo -->
