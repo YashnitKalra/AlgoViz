@@ -1,11 +1,8 @@
 $(document).ready(function(){
-    var num,rows=20,cols=50;
+    var num,rows=51,cols=50;
     var srcSelected = 0, destSelected = 0, obstacleSelected = 0, eraseSelected = 0, eraseButtonPressed=0;
-    var temp, tempSrc, tempDest;
+    var temp, tempSrc, tempDest, searchStarted = 0;
     var arr = [];
-
-    for(var i=1;i<=10;i++)
-            $("#destinations").append(`<option value="${i}">${i}</option>`)
 
     function getRadioValue(arr){
         for(var i=0;i<arr.length;i++)
@@ -65,7 +62,7 @@ $(document).ready(function(){
                 }
     });
 
-    function addBars(){
+    function changeBars(){
         num = Math.floor((Number($("#size").val())+1)*3.5);
         $("#sortVis").empty()
         var barWidth = 75/num;
@@ -75,7 +72,12 @@ $(document).ready(function(){
         for(let i=0;i<num;i++)
             $(`#line${i}`).css("height",`${Math.ceil(Math.random()*Math.floor(screen.height/2))+1}px`);
     }
-    
+
+    function changeRows(){
+        rows = Math.floor(Number($("#rows").val()))+1
+        makeGrid();
+    }
+
     $("#search").click(function(){
         $("#search").addClass("active").addClass("font-weight-bold");
         $("#sort").removeClass("active").removeClass("font-weight-bold");
@@ -85,6 +87,8 @@ $(document).ready(function(){
         $("#searchVis").removeClass("d-none");
         // makeGrid();
     });
+    $("#rows").on("input",changeRows);
+
     $("#sort").click(function(){
         $("#sort").addClass("active").addClass("font-weight-bold");
         $("#search").removeClass("active").removeClass("font-weight-bold");
@@ -92,10 +96,10 @@ $(document).ready(function(){
         $("#sortOptions").css("display","flex");
         $("#searchVis").addClass("d-none");
         $("#sortVis").removeClass("d-none");
-        addBars();
+        changeBars();
     });
-    $("#size").on("input",addBars);
-    $("#refreshBars").click(addBars);
+    $("#size").on("input",changeBars);
+    $("#refreshBars").click(changeBars);
 
     $("#sortButton").click(async function(){
         var option = getRadioValue(document.getElementsByName("sortAlgo"));
@@ -111,8 +115,21 @@ $(document).ready(function(){
         $("#sortButton, #size, #refreshBars").attr("disabled",false);
     });
 
-    $("#searchButton").click(function(){
-        // console.log(arr);
+    function clearTracedPath(){
+        for(let i=0;i<rows;i++)
+            for(let j=0;j<cols;j++)
+                $(`#${i}_${j}`).removeClass("bg-lightyellow").removeClass("bg-purple");
+    }
+
+    $("#searchButton").click(async function(){
+        searchStarted = 1;
+        clearTracedPath();
+        var option = getRadioValue(document.getElementsByName("searchAlgo"));
+        findSrcDest(arr, rows, cols);
+        switch(option){
+            case 1: await bfs(arr, rows, cols); break;
+        }
+        searchStarted = 0;
     });
 
     function setBoxValue(obj, val){
@@ -127,95 +144,111 @@ $(document).ready(function(){
 
     function createBoxEvents(){
         $(".box").click(function(){
-            if(getBoxValue(this)==1 && destSelected==0){   // clicked on src
-                srcSelected = 1;
-                tempSrc = this;
-                // setBoxValue(this, 0);
-            }
-            else if(srcSelected==1 && getBoxValue(this)!=2){ // set src which is not dest
-                srcSelected = 0;
-                setBoxValue(this, 1);
-                setBoxValue(tempSrc, 0);
-                $(tempSrc).removeClass("bg-success");
-                $(this).removeClass("bg-dark").removeClass("bg-lightgreen").addClass("bg-success");
-            }
-            else if(getBoxValue(this)==2 && srcSelected==0){   // clicked on dest
-                destSelected = 1;
-                tempDest = this;
-                // setBoxValue(this, 0);
-            }
-            else if(destSelected==1 && getBoxValue(this)!=1){    // set dest which is not src
-                destSelected = 0;
-                setBoxValue(this, 2);
-                setBoxValue(tempDest, 0);
-                $(tempDest).removeClass("bg-danger");
-                $(this).removeClass("bg-dark").removeClass("bg-lightred").addClass("bg-danger");
-            }
-            else if(srcSelected==0 && destSelected==0){ // neither src is selected nor dest
-                if(eraseButtonPressed==1 && eraseSelected==0){  // start erasing
-                    eraseSelected=1;
-                    setBoxValue(this, 0);
+            if(searchStarted==0){   // if searching for path is not started
+                if(getBoxValue(this)==1 && destSelected==0 && srcSelected==0){   // clicked on src
+                    srcSelected = 1;
+                    tempSrc = this;
                 }
-                else if(eraseButtonPressed==1 && eraseSelected==1){ // stop erasing
-                    eraseSelected=0;
-                    setBoxValue(this, 0);
+                else if(srcSelected==1 && getBoxValue(this)!=2){ // set src which is not dest
+                    srcSelected = 0;
+                    setBoxValue(tempSrc, 0);
+                    setBoxValue(this, 1);
+                    $(tempSrc).removeClass("bg-success");
+                    $(this).removeClass("bg-dark").removeClass("bg-lightgreen").addClass("bg-success");
                 }
-                else if(getBoxValue(this)<1 && obstacleSelected==0){ // start making obstacles
-                    obstacleSelected = 1;
-                    setBoxValue(this, -1);
+                else if(getBoxValue(this)==2 && srcSelected==0 && destSelected==0){   // clicked on dest
+                    destSelected = 1;
+                    tempDest = this;
                 }
-                else if(getBoxValue(this)<1 && obstacleSelected==1){    // stop making obstacles
-                    obstacleSelected = 0;
-                    setBoxValue(this, -1);
+                else if(destSelected==1 && getBoxValue(this)!=1){    // set dest which is not src
+                    destSelected = 0;
+                    setBoxValue(tempDest, 0);
+                    setBoxValue(this, 2);
+                    $(tempDest).removeClass("bg-danger");
+                    $(this).removeClass("bg-dark").removeClass("bg-lightred").addClass("bg-danger");
+                }
+                else if(srcSelected==0 && destSelected==0){ // neither src is selected nor dest
+                    if(eraseButtonPressed==1 && eraseSelected==0){  // start erasing
+                        eraseSelected=1;
+                        setBoxValue(this, 0);
+                    }
+                    else if(eraseButtonPressed==1 && eraseSelected==1){ // stop erasing
+                        eraseSelected=0;
+                        setBoxValue(this, 0);
+                    }
+                    else if(getBoxValue(this)<1 && obstacleSelected==0){ // start making obstacles
+                        obstacleSelected = 1;
+                        setBoxValue(this, -1);
+                    }
+                    else if(getBoxValue(this)<1 && obstacleSelected==1){    // stop making obstacles
+                        obstacleSelected = 0;
+                        setBoxValue(this, -1);
+                    }
                 }
             }
         });
 
         $(".box").hover(function(){ // MOUSE-ENTER
-            if(srcSelected==1){ // while src is selected
-                if(getBoxValue(this)!=2)
-                    $(this).addClass("bg-lightgreen");
-            }
-            else if(destSelected==1){   // while dest is selected
-                if(getBoxValue(this)!=1)
-                    $(this).addClass("bg-lightred");
-            }
-            else if(srcSelected==0 && destSelected==0){
-                if(eraseButtonPressed==1){  // erase options
-                    if(getBoxValue(this)==-1){    // current box is obstacle
-                        $(this).removeClass("bg-dark");
-                        if(eraseSelected==1){  // erase it
-                            setBoxValue(this, 0);
-                        }
+            if(searchStarted==0){   // search not started
+                if(srcSelected==1){ // while src is selected
+                    if(getBoxValue(this)!=2){
+                        if(getBoxValue(this)==-1)
+                            $(this).removeClass("bg-dark");
+                        $(this).addClass("bg-lightgreen");
                     }
                 }
-                else if(getBoxValue(this)<1 && obstacleSelected==0){ // show it can be obstacle
-                    $(this).addClass("bg-dark");
+                else if(destSelected==1){   // while dest is selected
+                    if(getBoxValue(this)!=1){
+                        if(getBoxValue(this)==-1)
+                            $(this).removeClass("bg-dark");
+                        $(this).addClass("bg-lightred");
+                    }
                 }
-                else if(getBoxValue(this)<1 && obstacleSelected==1){    // make it obstacle
-                    $(this).addClass("bg-dark");
-                    setBoxValue(this, -1);
+                else if(srcSelected==0 && destSelected==0){
+                    if(eraseButtonPressed==1){  // erase options
+                        if(getBoxValue(this)==-1){    // current box is obstacle
+                            $(this).removeClass("bg-dark");
+                            if(eraseSelected==1){  // erase it
+                                setBoxValue(this, 0);
+                            }
+                        }
+                    }
+                    else if(getBoxValue(this)<1 && obstacleSelected==0){ // show it can be obstacle
+                        $(this).addClass("bg-dark");
+                    }
+                    else if(getBoxValue(this)<1 && obstacleSelected==1){    // make it obstacle
+                        $(this).addClass("bg-dark");
+                        setBoxValue(this, -1);
+                    }
                 }
             }
         },
         function(){  // MOUSE-LEAVE
-            if(srcSelected==1){ // while src is selected
-                if(getBoxValue(this)!=2)
-                    $(this).removeClass("bg-lightgreen");
-            }
-            else if(destSelected==1){   // while dest is selected
-                if(getBoxValue(this)!=2)
-                    $(this).removeClass("bg-lightred");
-            }
-            else if(srcSelected==0 && destSelected==0){
-                if(eraseButtonPressed==1){  // erase options
-                    if(getBoxValue(this)==-1){  // current box is obstacle
-                        if(eraseSelected==0)
+            if(searchStarted==0){   // if search not started
+                if(srcSelected==1){ // while src is selected
+                    if(getBoxValue(this)!=2){
+                        $(this).removeClass("bg-lightgreen");
+                        if(getBoxValue(this)==-1)
                             $(this).addClass("bg-dark");
                     }
                 }
-                else if(getBoxValue(this)==0 && obstacleSelected==0)
-                    $(this).removeClass("bg-dark");
+                else if(destSelected==1){   // while dest is selected
+                    if(getBoxValue(this)!=2){
+                        $(this).removeClass("bg-lightred");
+                        if(getBoxValue(this)==-1)
+                            $(this).addClass("bg-dark");
+                    }
+                }
+                else if(srcSelected==0 && destSelected==0){
+                    if(eraseButtonPressed==1){  // erase options
+                        if(getBoxValue(this)==-1){  // current box is obstacle
+                            if(eraseSelected==0)
+                                $(this).addClass("bg-dark");
+                        }
+                    }
+                    else if(getBoxValue(this)==0 && obstacleSelected==0)
+                        $(this).removeClass("bg-dark");
+                }
             }
         });
     }

@@ -37,6 +37,12 @@
             .bg-lightred{
                 background-color: rgba(253, 15, 15, 0.4);
             }
+            .bg-lightyellow{
+                background-color: rgba(255, 216, 4, 0.6);;
+            }
+            .bg-purple{
+                background-color: rgba(217, 24, 223, 0.6);
+            }
         </style>
     </head>
     <body class="table-primary">
@@ -57,8 +63,8 @@
                 <!-- Searching Algo -->
                 <div id="searchOptions" class="row text-center align-items-center">
                     <div class="col">
-                        <label for="destinations" class="mb-0">Destinations:</label>
-                        <select class="form-control" id="destinations"></select>
+                        <label for="size" class="mb-0">Rows:</label>
+                        <input type="range" class="custom-range" id="rows">
                     </div>
 
                     <div class="col">
@@ -66,13 +72,13 @@
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo" checked>A* Search</label>
                         </div>
                         <div class="form-check-inline">
+                            <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Breadth First Search</label>
+                        </div>
+                        <div class="form-check-inline">
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Bi-Directional Search</label>
                         </div>
                         <div class="form-check-inline">
                             <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Dijkastras Algorithm</label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Breadth First Search</label>
                         </div>
                     </div>
                     <div class="col">
@@ -128,11 +134,12 @@
         </div>
         
         <!-- Search Visualization -->
-        <div class="container-fluid w-100 h-auto justify-content-center p-0 m-0" id="searchVis"></div>
+        <div class="container-fluid justify-content-center p-0 m-0" id="searchVis"></div>
 
         <!-- Sort Visualization -->
         <div class="container-fluid w-auto h-100 justify-content-center d-none text-center mx-2" id="sortVis" style="overflow: auto;"></div>
     </body>
 </html>
 <script src='sortAlgorithms.js'></script>
+<script src="searchAlgorithms.js"></script>
 <script src='index.js'></script>
