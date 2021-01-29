@@ -1,7 +1,7 @@
 var speed;
-var defaultColor = "rgb(236, 73, 109)";
-var greenColor = "rgb(30, 105, 12)";
-var blueColor = "rgb(15, 43, 134)";
+var defaultColor = "rgb(149, 45, 67)";
+var greenColor = "#D2FF28";
+var blueColor = "cyan";
 
 function getSpeed(){
     return Number($("#speed").val());
@@ -100,6 +100,8 @@ async function partition(l, h){
     toBlueColor(getLineId(h));
     let pivot = $(getLineId(h)).height(), height;
     let i = l-1;
+    if(l-1>=0)
+        toBlueColor(getLineId(l-1));
     toBlueColor(getLineId(i+1));
     for(let j=l;j<h;j++){
         speed = getSpeed();
@@ -117,6 +119,8 @@ async function partition(l, h){
     swapHeight(getLineId(i+1), getLineId(h));
     toDefaultColor(getLineId(h));
     toDefaultColor(getLineId(i+1));
+    if(l-1>=0)
+        toDefaultColor(getLineId(l-1));
     return i+1;
 }
 

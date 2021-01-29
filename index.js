@@ -40,7 +40,7 @@ $(document).ready(function(){
         }
         $("#0_0").addClass("bg-success");
         $(`#${rows-1}_${cols-1}`).addClass("bg-danger");
-        $(`#r${rows-1}`).css("border-bottom","1px solid black");
+        $(`#r${rows-1}`).css("border-bottom","1px solid rgb(230, 212, 212)");
         arr[0][0]=1;
         arr[rows-1][cols-1] = 2;
         createBoxEvents();
@@ -65,7 +65,7 @@ $(document).ready(function(){
 
     function changeBars(){
         num = Math.floor((Number($("#size").val())+1)*3.5);
-        $("#sortVis").empty()
+        $("#sortVis").empty();
         var barWidth = 75/num;
         for(let i=0;i<num;i++)
             $("#sortVis").append(`<span width=${barWidth}px class="line align-top" id="line${i}"></span>`);
