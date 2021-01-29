@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var num,rows=51,cols=50;
+    var num,rows=Math.floor(Number($("#rows").val()))+1 ,cols=50;
     var srcSelected = 0, destSelected = 0, obstacleSelected = 0, eraseSelected = 0, eraseButtonPressed=0;
     var temp, tempSrc, tempDest, searchStarted = 0;
     var arr = [];
@@ -52,6 +52,7 @@ $(document).ready(function(){
         for(let i=0;i<rows;i++)
             for(let j=0;j<cols;j++)
                 if(arr[i][j]<1){
+                    $(`#${i}_${j}`).removeClass("bg-purple").removeClass("bg-lightyellow");
                     if(Math.random()<0.3){
                         $(`#${i}_${j}`).addClass("bg-dark");
                         arr[i][j] = -1;
@@ -74,7 +75,7 @@ $(document).ready(function(){
     }
 
     function changeRows(){
-        rows = Math.floor(Number($("#rows").val()))+1
+        rows = Math.floor(Number($("#rows").val()))+1;
         makeGrid();
     }
 
@@ -126,10 +127,14 @@ $(document).ready(function(){
         clearTracedPath();
         var option = getRadioValue(document.getElementsByName("searchAlgo"));
         findSrcDest(arr, rows, cols);
+        $("#searchButton, #rows, #refreshBars, #eraseButton, #randomMazeButton, #refreshGrid, input").attr("disabled",true);
         switch(option){
+            case 0: await a_star(arr, rows, cols); break;
             case 1: await bfs(arr, rows, cols); break;
+            case 2: await bidrirectional(arr, rows, cols); break;
         }
         searchStarted = 0;
+        $("#searchButton, #rows, #refreshBars, #eraseButton, #randomMazeButton, #refreshGrid, input").attr("disabled",false);
     });
 
     function setBoxValue(obj, val){
