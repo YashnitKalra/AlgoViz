@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var num,rows=Math.floor(Number($("#rows").val()))+1 ,cols=50;
+    var num,pixels = 110 - Math.floor(Number($("#rows").val())) ,cols=50;
     var srcSelected = 0, destSelected = 0, obstacleSelected = 0, eraseSelected = 0, eraseButtonPressed=0;
     var temp, tempSrc, tempDest, searchStarted = 0;
     var arr = [];
@@ -28,11 +28,16 @@ $(document).ready(function(){
         srcSelected = 0; destSelected = 0; obstacleSelected = 0; eraseSelected = 0; eraseButtonPressed=0; arr = [];
         $("#eraseButton").removeClass("btn-outline-light").removeClass("btn-light").addClass("btn-outline-light");
         $("#searchVis").empty();
+        var occupy = (pixels*2) + 1;
+        var availableHeight = parseInt(screen.height - $("#searchVis").position().top);
+        rows = parseInt(availableHeight/occupy);
+        rows -= Math.floor(rows*0.25);
+        cols = parseInt(screen.width/occupy) - 1;
         for(let i=0;i<rows;i++){
             temp = [];
-            $("#searchVis").append(`<div id="r${i}" style="height:${screen.height/34}px;">`);
+            $("#searchVis").append(`<div id="r${i}" class="d-flex justify-content-center">`);
             for(let j=0;j<cols;j++){
-                $(`#r${i}`).append(`<div class='box' id="${i}_${j}">&nbsp;</div>`);
+                $(`#r${i}`).append(`<div class='box' id="${i}_${j}" style="padding:${pixels}px;"></div>`);
                 temp.push(0);
             }
             arr.push(temp);
@@ -40,7 +45,10 @@ $(document).ready(function(){
         }
         $("#0_0").addClass("bg-success");
         $(`#${rows-1}_${cols-1}`).addClass("bg-danger");
-        $(`#r${rows-1}`).css("border-bottom","1px solid rgb(230, 212, 212)");
+        for(let i=0; i<rows; i++)
+            $(`#${i}_${cols-1}`).css("border-right","1px solid rgb(230, 212, 212)");
+        for(let j=0; j<cols; j++)
+            $(`#${rows-1}_${j}`).css("border-bottom","1px solid rgb(230, 212, 212)");
         arr[0][0]=1;
         arr[rows-1][cols-1] = 2;
         createBoxEvents();
@@ -75,7 +83,7 @@ $(document).ready(function(){
     }
 
     function changeRows(){
-        rows = Math.floor(Number($("#rows").val()))+1;
+        pixels = 110 - Math.floor(Number($("#rows").val()));
         makeGrid();
     }
 
