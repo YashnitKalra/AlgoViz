@@ -28,11 +28,10 @@ $(document).ready(function(){
         srcSelected = 0; destSelected = 0; obstacleSelected = 0; eraseSelected = 0; eraseButtonPressed=0; arr = [];
         $("#eraseButton").removeClass("btn-outline-light").removeClass("btn-light").addClass("btn-outline-light");
         $("#searchVis").empty();
-        var occupy = (pixels*2) + 1;
-        var availableHeight = parseInt(screen.height - $("#searchVis").position().top);
-        rows = parseInt(availableHeight/occupy);
-        rows -= Math.floor(rows*0.25);
-        cols = parseInt(screen.width/occupy) - 1;
+        var occupy = Math.ceil(pixels*2.8) + 1;
+        var availableHeight = Math.floor(screen.height - $("#searchVis").position().top);
+        rows = Math.floor(availableHeight/occupy);
+        cols = Math.floor(screen.width/occupy);
         for(let i=0;i<rows;i++){
             temp = [];
             $("#searchVis").append(`<div id="r${i}" class="d-flex justify-content-center">`);
