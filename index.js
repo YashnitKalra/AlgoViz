@@ -88,10 +88,10 @@ $(document).ready(function(){
 
     $("#search").click(function(){
         $("#search").addClass("active").addClass("font-weight-bold");
-        $("#sort").removeClass("active").removeClass("font-weight-bold");
-        $("#sortOptions").css("display","none");
+        $("#sort, #graph").removeClass("active").removeClass("font-weight-bold");
+        $("#sortOptions, #graphOptions").css("display","none");
         $("#searchOptions").css("display","flex");
-        $("#sortVis").addClass("d-none");
+        $("#sortVis, #graphVis").addClass("d-none");
         $("#searchVis").removeClass("d-none");
         // makeGrid();
     });
@@ -99,15 +99,24 @@ $(document).ready(function(){
 
     $("#sort").click(function(){
         $("#sort").addClass("active").addClass("font-weight-bold");
-        $("#search").removeClass("active").removeClass("font-weight-bold");
-        $("#searchOptions").css("display","none");
+        $("#search, #graph").removeClass("active").removeClass("font-weight-bold");
+        $("#searchOptions, #graphOptions").css("display","none");
         $("#sortOptions").css("display","flex");
-        $("#searchVis").addClass("d-none");
+        $("#searchVis, #graphVis").addClass("d-none");
         $("#sortVis").removeClass("d-none");
         changeBars();
     });
     $("#size").on("input",changeBars);
     $("#refreshBars").click(changeBars);
+
+    $("#graph").click(function(){
+        $("#search, #sort").removeClass("active").removeClass("font-weight-bold");
+        $("#searchOptions, #sortOptions").css("display", "none");
+        $("#searchVis, #sortVis").addClass("d-none");
+        $("#graph").addClass("active").addClass("font-weight-bold");
+        $("#graphOptions").css("display","flex");
+        $("#graphVis").removeClass("d-none");
+    });
 
     $("#sortButton").click(async function(){
         var option = getRadioValue(document.getElementsByName("sortAlgo"));
