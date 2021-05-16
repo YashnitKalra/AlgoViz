@@ -45,7 +45,7 @@
         </style>
     </head>
     <body>
-        <div class="bg-dark pt-3 text-light" style="box-shadow:-2px 2px 5px black;">
+        <div class="bg-dark pt-3 text-light">
             <h2 style="font-family: 'Courier New', Courier, monospace;" class="ml-3 font-italic p-1d-inline">Alg<span class="fas fa-laptop-code p-1" style="font-size: 16px; border: 2px white solid; border-radius: 25px;"></span>Viz</h2>
             <ul class="nav nav-tabs nav-justified bg-dark text-light">
                 <li class="nav-item nav-link active font-weight-bold" id="search">
@@ -54,9 +54,12 @@
                 <li class="nav-item nav-link" id="sort">
                   Sort <span class="fas fa-sort"></span>
                 </li>
+                <li class="nav-item nav-link" id="graph">
+                    Graph <span class="fas fa-project-diagram"></span>
+                </li>
               </ul> 
         </div>
-        <div class="m-3 p-2 text-light w-auto" style="background-color: rgba(3, 16, 36, 0.7); box-shadow: -2px 2px 5px black; border-radius: 20px;">
+        <div class="mb-3 p-2 text-light w-auto" style="background-color: rgba(3, 16, 36, 0.7); box-shadow: -2px 2px 5px black; border-radius: 0px 0px 50px 50px;">
             
             <div class="form-group container-fluid">
                 <!-- Searching Algo -->
@@ -117,6 +120,27 @@
                     </div>
                 </div>
 
+                <!-- Graph Options -->
+                <div id="graphOptions" style="display: none;" class="row text-center align-items-center my-2">
+                    <div class="col">
+                        <label for="x">X: </label>
+                        <input type="number" id="x" value="1" min="1" max="10" class="form-control d-inline" style="width: 75px;">
+                        <label for="y">Y: </label>
+                        <input type="number" id="y" value="1" min="1" max="10" class="form-control d-inline" style="width: 75px;">
+                        <button type="button" class="btn btn-outline-light" id="addVertexButton">Add Vertex</button>
+                    </div>
+                    <div class="col">
+                        <select id="vertex1" class="form-control w-auto d-inline"></select>
+                        <select id="vertex2" class="form-control w-auto d-inline"></select>
+                        <label for="weight"></label>
+                        <input type="number" id="weight" class="form-control d-inline" style="width: 75px;">
+                        <button type="button" id="addEdgeButton" class="btn btn-outline-light">Add Edge</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" id="clearGraph" class="btn btn-outline-light">Clear</button>
+                    </div>
+                </div>
+
                 <div class="text-center mt-3">
                     <label for="speed">Speed:</label>
                     <select class="form-control d-inline w-auto" id="speed">
@@ -134,8 +158,14 @@
 
         <!-- Sort Visualization -->
         <div class="container-fluid w-auto h-100 justify-content-center d-none text-center mx-2" id="sortVis" style="overflow: auto;"></div>
+
+        <!-- Graph Visualization -->
+        <div class="container-fluid justify-content-center p-0 m-0 d-none text-center" id="graphVis">
+            <canvas id="canvas"></canvas>
+        </div>
     </body>
 </html>
 <script src='sortAlgorithms.js'></script>
 <script src="searchAlgorithms.js"></script>
+<script src="graphOptions.js"></script>
 <script src='index.js'></script>
