@@ -1,7 +1,8 @@
 $(document).ready(()=>{
     var canvas = document.querySelector("#canvas");
     var ctx = canvas.getContext("2d");
-    var between = 50;
+    var between = Math.floor(Math.min(window.innerHeight, window.innerWidth)/15);
+    // var between = Math.floor(window.innerWidth/15);
     canvas.height = 12 * between;
     canvas.width = 12 * between;
     var top = 50;
@@ -95,7 +96,7 @@ $(document).ready(()=>{
             drawLine(vertices[v1][0], vertices[v1][1], vertices[v2][0], vertices[v2][1], "white");
             addOverlapVertex(vertices[v1][0], vertices[v1][1], v1 + 1);
             addOverlapVertex(vertices[v2][0], vertices[v2][1], v2 + 1);
-            ctx.strokeText(w, (vertices[v1][0] + vertices[v2][0])/2, (vertices[v1][1] + vertices[v2][1])/2);
+            $("#edgeTable").append(`<tr><td>${Math.min(v1, v2)+1}</td><td>${Math.max(v1, v2)+1}</td><td>${w}</td></tr>`)
         }
     });
 });

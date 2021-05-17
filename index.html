@@ -21,7 +21,7 @@
             .line{
                 border-left: 1px solid rgb(149, 45, 67);
                 height: 400px;
-                margin-left: 2px;
+                margin-left: 1px;
                 display: inline-block;
             }
             .box{
@@ -41,6 +41,9 @@
             }
             .bg-purple{
                 background-color: rgba(217, 24, 223, 0.6);
+            }
+            td{
+                border: 2px solid white;
             }
         </style>
     </head>
@@ -161,7 +164,18 @@
 
         <!-- Graph Visualization -->
         <div class="container-fluid justify-content-center p-0 m-0 d-none text-center" id="graphVis">
-            <canvas id="canvas"></canvas>
+            <div class="container-fluid row">
+                <div class="col-sm-6"><canvas id="canvas"></canvas></div>
+                <div class="col-sm-6">
+                    <table class="table font-weight-bold table-sm" id="edgeTable">
+                        <tr class="bg-light" style="border: 2px solid white;">
+                            <th>Vertex 1</th>
+                            <th>Vertex 2</th>
+                            <th>Weight</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </body>
 </html>
