@@ -81,7 +81,7 @@ $(document).ready(()=>{
         var x2 = (v2[0] - left)/between;
         var y1 = (v1[1] - top)/between;
         var y2 = (v2[1] - top)/between;
-        var d = Math.pow(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2), 0.5);
+        var d = (Math.pow(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2), 0.5)).toFixed(2);
         $("#weight").val(d);
     });
 

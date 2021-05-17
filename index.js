@@ -71,14 +71,15 @@ $(document).ready(function(){
     });
 
     function changeBars(){
-        num = Math.floor((Number($("#size").val())+1)*3.5);
+        num = Math.ceil((Number($("#size").val())+1)*0.8);
         $("#sortVis").empty();
-        var barWidth = 75/num;
+        var barWidth = window.innerWidth/num;
+        console.log(num, barWidth);
         for(let i=0;i<num;i++)
-            $("#sortVis").append(`<span width=${barWidth}px class="line align-top" id="line${i}"></span>`);
-        $(".line").css("border-left-width", `${barWidth}rem`);
+            $("#sortVis").append(`<span class="line align-top" id="line${i}"></span>`);
+        $(".line").css("border-left-width", `${barWidth/1.5}px`);
         for(let i=0;i<num;i++)
-            $(`#line${i}`).css("height",`${Math.ceil(Math.random()*Math.floor(screen.height/2))+1}px`);
+            $(`#line${i}`).css("height",`${Math.ceil(Math.random()*Math.floor(window.innerHeight/2))+1}px`);
     }
 
     function changeRows(){
