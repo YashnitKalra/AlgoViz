@@ -71,10 +71,9 @@ $(document).ready(function(){
     });
 
     function changeBars(){
-        num = Math.ceil((Number($("#size").val())+1)*0.8);
+        num = Math.ceil((Number($("#size").val())+1)*0.7);
         $("#sortVis").empty();
         var barWidth = window.innerWidth/num;
-        console.log(num, barWidth);
         for(let i=0;i<num;i++)
             $("#sortVis").append(`<span class="line align-top" id="line${i}"></span>`);
         $(".line").css("border-left-width", `${barWidth/1.5}px`);
