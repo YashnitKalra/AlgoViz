@@ -1,33 +1,4 @@
-var speed;
-var defaultColor = "rgb(149, 45, 67)";
-var greenColor = "#D2FF28";
-var blueColor = "cyan";
-
-function getSpeed(){
-    return Number($("#speed").val());
-}
-
-function getLineId(index){
-    return `#line${index}`;
-}
-
-function toDefaultColor(id){
-    $(id).css("border-left-color", defaultColor);
-}
-
-function toGreenColor(id){
-    $(id).css("border-left-color", greenColor);
-}
-
-function toBlueColor(id){
-    $(id).css("border-left-color", blueColor);
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
- }
-
- function swapHeight(id1, id2){
+function swapHeight(id1, id2){
     var height1 = $(id1).height();
     var height2 = $(id2).height();
     $(id1).css("height", height2);
