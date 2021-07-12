@@ -14,4 +14,4 @@ Visualization of following Algorithms.
 	e) Merge Sort
 	f) Heap Sort
 
-Try Here: http://raw.githack.com/YashnitKalra/AlgoViz/main/index.html
+Try Here: http://raw.githack.com/YashnitKalra/AlgoViz/master/html/sort.html
