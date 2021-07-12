@@ -14,11 +14,4 @@ Visualization of following Algorithms.
 	e) Merge Sort
 	f) Heap Sort
 
-Made Using:
-1. HTML
-2. CSS
-3. Bootstrap 4
-4. JavaScript
-5. jQuery
-
-Try Here: http://raw.githack.com/YashnitKalra/AlgoViz/main/index.html
+Try Here: http://raw.githack.com/YashnitKalra/AlgoViz/master/html/sort.html

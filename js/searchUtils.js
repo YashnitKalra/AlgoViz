@@ -1,14 +1,10 @@
-$(document).ready(function(){
-    var num,pixels = 110 - Math.floor(Number($("#rows").val())) ,cols=50;
+$(document).ready(()=>{
+    var pixels = 110 - Math.floor(Number($("#rows").val())) ,cols=50;
     var srcSelected = 0, destSelected = 0, obstacleSelected = 0, eraseSelected = 0, eraseButtonPressed=0;
     var temp, tempSrc, tempDest, searchStarted = 0;
     var arr = [];
 
-    function getRadioValue(arr){
-        for(var i=0;i<arr.length;i++)
-            if(arr[i].checked)
-                return i;
-    }
+    
 
     $("#eraseButton").click(function(){
         if(srcSelected==0 && destSelected==0){  // if src and dest are not selected currently
@@ -29,9 +25,9 @@ $(document).ready(function(){
         $("#eraseButton").removeClass("btn-outline-light").removeClass("btn-light").addClass("btn-outline-light");
         $("#searchVis").empty();
         var occupy = Math.ceil(pixels*2.8) + 1;
-        var availableHeight = Math.floor(screen.height - $("#searchVis").position().top);
+        var availableHeight = Math.floor(window.innerHeight - $("#searchVis").position().top);
         rows = Math.floor(availableHeight/occupy);
-        cols = Math.floor(screen.width/occupy);
+        cols = Math.floor(window.innerWidth/occupy);
         for(let i=0;i<rows;i++){
             temp = [];
             $("#searchVis").append(`<div id="r${i}" class="d-flex justify-content-center">`);
@@ -70,67 +66,12 @@ $(document).ready(function(){
                 }
     });
 
-    function changeBars(){
-        num = Math.ceil((Number($("#size").val())+1)*0.7);
-        $("#sortVis").empty();
-        var barWidth = window.innerWidth/num;
-        for(let i=0;i<num;i++)
-            $("#sortVis").append(`<span class="line align-top" id="line${i}"></span>`);
-        $(".line").css("border-left-width", `${barWidth/1.5}px`);
-        for(let i=0;i<num;i++)
-            $(`#line${i}`).css("height",`${Math.ceil(Math.random()*Math.floor(window.innerHeight/2))+1}px`);
-    }
-
     function changeRows(){
         pixels = 110 - Math.floor(Number($("#rows").val()));
         makeGrid();
     }
 
-    $("#search").click(function(){
-        $("#search").addClass("active").addClass("font-weight-bold");
-        $("#sort, #graph").removeClass("active").removeClass("font-weight-bold");
-        $("#sortOptions, #graphOptions").css("display","none");
-        $("#searchOptions").css("display","flex");
-        $("#sortVis, #graphVis").addClass("d-none");
-        $("#searchVis").removeClass("d-none");
-        // makeGrid();
-    });
     $("#rows").on("input",changeRows);
-
-    $("#sort").click(function(){
-        $("#sort").addClass("active").addClass("font-weight-bold");
-        $("#search, #graph").removeClass("active").removeClass("font-weight-bold");
-        $("#searchOptions, #graphOptions").css("display","none");
-        $("#sortOptions").css("display","flex");
-        $("#searchVis, #graphVis").addClass("d-none");
-        $("#sortVis").removeClass("d-none");
-        changeBars();
-    });
-    $("#size").on("input",changeBars);
-    $("#refreshBars").click(changeBars);
-
-    $("#graph").click(function(){
-        $("#search, #sort").removeClass("active").removeClass("font-weight-bold");
-        $("#searchOptions, #sortOptions").css("display", "none");
-        $("#searchVis, #sortVis").addClass("d-none");
-        $("#graph").addClass("active").addClass("font-weight-bold");
-        $("#graphOptions").css("display","flex");
-        $("#graphVis").removeClass("d-none");
-    });
-
-    $("#sortButton").click(async function(){
-        var option = getRadioValue(document.getElementsByName("sortAlgo"));
-        $("#sortButton, #size, #refreshBars").attr("disabled",true);
-        switch(option){
-            case 0: await selectionSort(num); break;
-            case 1: await bubbleSort(num); break;
-            case 2: await insertionSort(num); break;
-            case 3: await quickSort(0, num-1); break;
-            case 4: await mergeSort(0,num-1); break;
-            case 5: await heapSort(num); break;
-        }
-        $("#sortButton, #size, #refreshBars").attr("disabled",false);
-    });
 
     function clearTracedPath(){
         for(let i=0;i<rows;i++)

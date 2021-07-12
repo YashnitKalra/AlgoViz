@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sort</title>
+    <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <h2 class="text-light">AlgoViz</h2>
+
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="sort.html">Sort</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dp.html">Dynammic Programming</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="mb-3 p-2 text-light w-auto" style="background-color: rgba(3, 16, 36, 0.7); box-shadow: -2px 2px 5px black; border-radius: 0px 0px 50px 50px;">
+        <div class="form-group container-fluid">
+
+            <!-- Sorting Algo -->
+            <div id="sortOptions" class="row text-center align-items-center">
+                <div class="col">
+                    <label for="size" class="mb-0">Size:</label>
+                    <input type="range" class="custom-range" id="size">
+                </div>
+                <div class="col">
+                    <div class="form-check-inline">
+                        <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo" checked>Selection Sort</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Bubble Sort</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Insertion Sort</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Quick Sort</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Merge Sort</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label"><input type="radio" class="form-check-input" name="sortAlgo">Heap Sort</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="button" id="refreshBars" class="btn text-light my-1"><span class="fa fa-sync-alt"></span></button>
+                    <button type="button" class="btn btn-outline-light my-1" id="sortButton">Sort</button>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <label for="speed">Speed:</label>
+                <select class="form-control d-inline w-auto" id="speed">
+                    <option value="500">Slow</option>
+                    <option value="100" selected>Medium</option>
+                    <option value="20">Fast</option>
+                    <option value="1">Faster</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sort Visualization -->
+    <div class="container-fluid w-auto h-100 justify-content-center text-center mb-2 p-0" id="sortVis" style="overflow: auto;"></div>
+
+</body>
+</html>
+<script src='../js/index.js'></script>
+<script src='../js/sortUtils.js'></script>
+<script src='../js/sortAlgorithms.js'></script>
