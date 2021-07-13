@@ -1,10 +1,8 @@
 async function lcs(){
     var s1 = $("#A").val();
     var s2 = $("#B").val();
-    var arr = new Array(s1.length + 1);
-    for(var i=0; i<=s1.length; i++)
-        arr[i] = new Array(s2.length + 1);
-    createTable(s1, s2);
+    var arr = get2DArray(s1.length+1, s2.length+1);
+    createTableWithEmptySpace(s1, s2);
     for(var i=0; i<=s1.length; i++){
         arr[i][0] = 0;
         $(`#${i}_${0}`).text(0);
@@ -37,21 +35,65 @@ async function lcs(){
 async function backTrackLcs(arr, s1, s2){
     var r = s1.length;
     var c = s2.length;
-    $(`#${r}_${c}`).addClass("bg-info");
     var ans = []
     while(r>0 && c>0){
         if(s1[r-1] == s2[c-1]){
+            $(`#${r}_${c}`).addClass("bg-info text-light");
             ans.push(s1[r-1]);
             r--; c--;
         }
-        else
+        else{
+            $(`#${r}_${c}`).addClass("bg-danger text-light");
             arr[r-1][c] > arr[r][c-1] ? r-- : c--;
+        }
         await sleep(getSpeed());
-        $(`#${r}_${c}`).addClass("bg-info");
     }
-    $("#dpVis").append(`<h3>Result: ${ans.reverse().join("")}</h3>`);
+    $("#dpVis").append(`<h3>LCS: ${ans.reverse().join("")}</h3>`);
 }
 
+// ****************************************************************************************************
+
 async function lps(){
-    console.log("lps");
+    var s = $("#A").val();
+    createTable(s, s);
+    var arr = get2DArray(s.length, s.length);
+    for(var i=0; i<s.length; i++){
+        arr[i][i] = 1;
+        $(`#${i}_${i}`).text('1');
+    }
+    for(var i=1; i<s.length; i++){
+        for(var j=0; j<s.length-i; j++){
+            var k = j+i;
+            if(s[j]==s[k])
+                arr[j][k] = 2 + arr[j+1][k-1];
+            else
+                arr[j][k] = Math.max(arr[j+1][k], arr[j][k-1]);
+            $(`#${j}_${k}`).text(arr[j][k]).addClass("bg-success");
+            $(`#r${j},#c${k}`).addClass("bg-lightred");
+            await sleep(getSpeed());
+            $(`#r${j},#c${k}`).removeClass("bg-lightred");
+            $(`#${j}_${k}`).removeClass("bg-success");
+        }
+    }
+    await backTrackLps(arr, s);
+}
+
+async function backTrackLps(arr, s){
+    var r = 0, c = arr.length-1;
+    var pre = [], suf = [];
+    while(c>=r){
+        if(s[r]==s[c]){
+            pre.push(s[r]);
+            if(r!=c)
+                suf.push(s[c]);
+            $(`#${r}_${c}`).addClass("bg-info text-light");
+            r++; c--;
+        }
+        else{
+            $(`#${r}_${c}`).addClass("bg-danger text-light");
+            arr[r+1][c] > arr[r][c-1] ? r++ : c--;
+        }
+        await sleep(getSpeed());
+    }
+    $("#dpVis").append(`<h3>Longest Palindromic Subsequence: <strong>${pre.join("") + suf.reverse().join("")}</strong></h3>`);
 }

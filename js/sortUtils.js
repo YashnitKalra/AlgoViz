@@ -34,15 +34,14 @@ $(document).ready(()=>{
     
     
     $("#sortButton").click(async function(){
-        var option = getRadioValue(document.getElementsByName("sortAlgo"));
         $("#sortButton, #size, #refreshBars").attr("disabled",true);
-        switch(option){
-            case 0: await selectionSort(num); break;
-            case 1: await bubbleSort(num); break;
-            case 2: await insertionSort(num); break;
-            case 3: await quickSort(0, num-1); break;
-            case 4: await mergeSort(0,num-1); break;
-            case 5: await heapSort(num); break;
+        switch($("#sortAlgo").val()){
+            case '0': await selectionSort(num); break;
+            case '1': await bubbleSort(num); break;
+            case '2': await insertionSort(num); break;
+            case '3': await quickSort(0, num-1); break;
+            case '4': await mergeSort(0,num-1); break;
+            case '5': await heapSort(num); break;
         }
         $("#sortButton, #size, #refreshBars").attr("disabled",false);
     });

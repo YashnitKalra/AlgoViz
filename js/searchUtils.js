@@ -82,16 +82,15 @@ $(document).ready(()=>{
     $("#searchButton").click(async function(){
         searchStarted = 1;
         clearTracedPath();
-        var option = getRadioValue(document.getElementsByName("searchAlgo"));
         findSrcDest(arr, rows, cols);
-        $("#searchButton, #rows, #refreshBars, #eraseButton, #randomMazeButton, #refreshGrid, input").attr("disabled",true);
-        switch(option){
-            case 0: await a_star(arr, rows, cols); break;
-            case 1: await bfs(arr, rows, cols); break;
-            case 2: await bidrirectional(arr, rows, cols); break;
+        $("#searchButton, #rows, #refreshBars, #eraseButton, #randomMazeButton, #refreshGrid, #searchAlgo").attr("disabled",true);
+        switch($("#searchAlgo").val()){
+            case '0': await a_star(arr, rows, cols); break;
+            case '1': await bfs(arr, rows, cols); break;
+            case '2': await bidrirectional(arr, rows, cols); break;
         }
         searchStarted = 0;
-        $("#searchButton, #rows, #refreshBars, #eraseButton, #randomMazeButton, #refreshGrid, input").attr("disabled",false);
+        $("#searchButton, #rows, #refreshBars, #eraseButton, #randomMazeButton, #refreshGrid, #searchAlgo").attr("disabled",false);
     });
 
     function setBoxValue(obj, val){

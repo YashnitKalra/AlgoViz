@@ -42,23 +42,19 @@
         <div class="form-group container-fluid">
             <!-- Searching Algo -->
             <div id="searchOptions" class="row text-center align-items-center">
-                <div class="col">
+                <div class="col-sm-4">
                     <label for="size" class="mb-0">Grid:</label>
                     <input type="range" class="custom-range" id="rows">
                 </div>
 
-                <div class="col">
-                    <div class="form-check-inline">
-                        <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo" checked>A* Search</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Breadth First Search</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <label class="form-check-label"><input type="radio" class="form-check-input" name="searchAlgo">Bi-Directional Search</label>
-                    </div>
+                <div class="col-sm-4">
+                    <select class="form-control" id="searchAlgo">
+                        <option value="0">A* Search</option>
+                        <option value="1">Breadth First Search</option>
+                        <option value="2">B-Directional Search</option>
+                    </select>
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                     <button type="button" class="btn btn-outline-light my-1" id="eraseButton">Erase Obstacle <span class="fas fa-eraser"></span></button>
                     <button type="button" class="btn btn-outline-light my-1" id="randomMazeButton">Random Maze <span class="fa fa-th"></span></button>
                     <button type="button" id="refreshGrid" class="btn btn-outline-light my-1">Refresh Grid <span class="fa fa-sync-alt"></span></button>
