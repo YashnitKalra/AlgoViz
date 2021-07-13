@@ -17,3 +17,10 @@ function getRadioValue(arr){
         if(arr[i].checked)
             return i;
 }
+
+function get2DArray(n, m){
+    var arr = new Array(n);
+    for(var i=0; i<n; i++)
+        arr[i] = new Array(m).fill(0);
+    return arr;
+}
