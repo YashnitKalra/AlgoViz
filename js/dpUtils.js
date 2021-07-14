@@ -2,18 +2,19 @@ select = $("select")[0];
 $(select).val('0');
 
 
-function createInputs(n){
+function createInputs(arr){
     var obj = $(".input-group")[0];
     $(obj).empty();
-    for(var i=0; i<n; i++){
-        $(obj).append(`<input type="text" placeholder="${String.fromCharCode(65+i)}" class="form-control" id="${String.fromCharCode(65+i)}">`);
+    for(var i=0; i<arr.length; i++){
+        $(obj).append(`<input type="text" placeholder="${arr[i]}" class="form-control" id="${String.fromCharCode(65+i)}">`);
     }
 }
 
 async function takeInput(){
     switch(select.value){
-        case "0": createInputs(2); break;
-        case "1": createInputs(1); break;
+        case "0": createInputs(["String 1", "String 2"]); break;
+        case "1": createInputs(["String"]); break;
+        case "2": createInputs(["1,2,3...", "Sum"]); break;
     }
 }
 takeInput();
@@ -23,8 +24,23 @@ async function start(){
     switch(select.value){
         case "0": await lcs(); break;
         case "1": await lps(); break;
+        case "2": await subsetSum(); break;
     }
     $("button").attr("disabled",false);
+}
+
+function createNumberTable(a, colStart, colEnd){
+    res = ["<table class='table table-bordered'><tr><th></th>"];
+    for(var i=colStart; i<=colEnd; i++)
+        res.push(`<th id='c${i}'>${i}</th>`);
+    res.push('</tr>');
+    for(var i=0; i<a.length; i++){
+        res.push(`<tr><th id="r${i}">${a[i]}</th>`);
+        for(var j=colStart; j<=colEnd; j++)
+            res.push(`<td id="${i}_${j}"></td>`);
+        res.push('</tr>');
+    }
+    $("#dpVis").empty().append(res.join(""));
 }
 
 function createTable(a, b){

@@ -48,7 +48,7 @@ async function backTrackLcs(arr, s1, s2){
         }
         await sleep(getSpeed());
     }
-    $("#dpVis").append(`<h3>LCS: ${ans.reverse().join("")}</h3>`);
+    $("#dpVis").append(`<h3>LCS: <strong>${ans.reverse().join("")}<strong></h3>`);
 }
 
 // ****************************************************************************************************
@@ -96,4 +96,59 @@ async function backTrackLps(arr, s){
         await sleep(getSpeed());
     }
     $("#dpVis").append(`<h3>Longest Palindromic Subsequence: <strong>${pre.join("") + suf.reverse().join("")}</strong></h3>`);
+}
+
+// ****************************************************************************************************************************************
+
+async function subsetSum(){
+    var nums = $("#A").val().split(",");
+    for(var i = 0; i<nums.length; i++)
+        if(isNaN(nums[i]))
+            return;
+    nums = nums.map(Number);
+    var sum = $("#B").val();
+    if(isNaN(sum))
+        return;
+    sum = Number(sum);
+    createNumberTable([0].concat(nums), 0, sum);
+    var arr = get2DArray(nums.length+1, sum+1);
+    arr[0][0] = true;
+    $("#0_0").text('T');
+    for(var i=1; i<=sum; i++)
+        $(`#${0}_${i}`).text('F');
+    for(var i=1; i<=nums.length; i++){
+        $(`#r${i}`).addClass("bg-lightred");
+        for(var j=0; j<=sum; j++){
+            $(`#c${j}`).addClass("bg-lightred");
+            arr[i][j] = arr[i-1][j];
+            if(j>=nums[i-1])
+                arr[i][j] |= arr[i-1][j-nums[i-1]];
+            $(`#${i}_${j}`).text(arr[i][j]?'T':'F').addClass("bg-success");
+            await sleep(getSpeed());
+            $(`#c${j}`).removeClass("bg-lightred");
+            $(`#${i}_${j}`).removeClass("bg-success");
+        }
+        $(`#r${i}`).removeClass("bg-lightred");
+    }
+    await backTrackSubsetSum(arr, nums);
+}
+
+async function backTrackSubsetSum(arr, nums){
+    var r = arr.length-1;
+    var c = arr[0].length-1;
+    res = []
+    while(r>0 && c>0){
+        if(arr[r-1][c]){
+            $(`#${r}_${c}`).addClass("bg-danger text-light");
+            r--;
+        }
+        else{
+            $(`#${r}_${c}`).addClass("bg-info text-light");
+            c -= nums[r-1];
+            res.push(nums[r-1]);
+            r--;
+        }
+        await sleep(getSpeed());
+    }
+    $("#dpVis").append(`<h3>Subset: <strong>{${res.reverse().join(", ")}}</strong></h3>`);
 }
