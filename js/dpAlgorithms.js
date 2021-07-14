@@ -130,7 +130,10 @@ async function subsetSum(){
         }
         $(`#r${i}`).removeClass("bg-lightred");
     }
-    await backTrackSubsetSum(arr, nums);
+    if(arr[nums.length][sum])
+        await backTrackSubsetSum(arr, nums);
+    else
+        $("#dpVis").append(`<h3>Subset: <strong>Does not exist</strong></h3>`);
 }
 
 async function backTrackSubsetSum(arr, nums){
