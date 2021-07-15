@@ -17,6 +17,7 @@ Visualization of following Algorithms.
 3. Dynamic Programming
 	a) Longest Common Subsequence
 	b) Longest Palindromic Subsequence
+	c) Subset Sum
 
 Made Using:
 	1) HTML
