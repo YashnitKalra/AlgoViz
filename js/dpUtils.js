@@ -15,6 +15,7 @@ async function takeInput(){
         case "0": createInputs(["String 1", "String 2"]); break;
         case "1": createInputs(["String"]); break;
         case "2": createInputs(["1,2,3...", "Sum"]); break;
+        case "3": createInputs(["Boolean Expression"]); break;
     }
 }
 takeInput();
@@ -25,6 +26,7 @@ async function start(){
         case "0": await lcs(); break;
         case "1": await lps(); break;
         case "2": await subsetSum(); break;
+        case "3": await booleanParanthezisation(); break;
     }
     $("button").attr("disabled",false);
 }
